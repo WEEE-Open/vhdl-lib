@@ -7,7 +7,7 @@ library IEEE;
 use IEEE.std_logic_1164.all;
 use IEEE.numeric_std.all;
 
-entity ComparatorSigned is
+entity ComparatorUnsigned is
 	generic (
 		N : natural
 	);
@@ -20,9 +20,9 @@ entity ComparatorSigned is
 		gt: out std_logic;				-- A > B
 		ge: out std_logic				-- A >= B
 	);
-end entity ComparatorSigned;
+end entity ComparatorUnsigned;
 
-architecture Structure of ComparatorSigned is
+architecture Structure of ComparatorUnsigned is
 	-- Signals for equal and less than
 	signal s_eq, s_lt: std_logic;
 begin
