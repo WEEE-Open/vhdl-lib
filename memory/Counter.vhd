@@ -1,6 +1,6 @@
 -- N bit up counter
--- cnt is incremented in every rising_edge of the clock in which cen is sampled
--- as '1'. When pl is asserted, cnt is set to pin.
+-- cnt is incremented in every rising_edge of the clock in which <cen>
+-- is sampled as '1'. When <pl> is asserted, count is set to <pin>.
 
 -- If multiple commands are issued at the same time, this priority is followed:
 -- 		Reset
