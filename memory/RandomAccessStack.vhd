@@ -25,32 +25,43 @@ entity RandomAccessStack is
 end entity RandomAccessStack;
 
 architecture RTL of RandomAccessStack is
+	component Counter is
+		generic (
+			N : natural
+		);
+		port (
+			clk:  in std_logic;					-- Clock
+			cen:  in std_logic;					-- Count enable
+			rst:  in std_logic;					-- Reset
+			pl:   in std_logic;					-- Parallel load
+			pin:  in unsigned(N-1 downto 0);	-- Parallel in
+			cnt: out unsigned(N-1 downto 0)		-- Count
+		);
+	end component;
+
 	-- Memory structure
 	type t_memory is array (0 to STACK_SIZE-1) of signed(WORD_SIZE-1 downto 0);
     signal mem: t_memory;
 	-- Stack pointer
-    signal sp: integer range 0 to mem_size-1;
-begin
-    proc_stack: process(clk, mem)
-            variable newsp: integer;
-        begin
-            if rising_edge(clk) then
-                if rst = '1' then
-					-- Reset stack pointer
-                    sp <= 0;
-                elsif push = '1' then
-					-- Store data in current address and increment sp
-                    mem(sp) <= D;
-                    newsp := sp + 1;
-					-- Check for stack pointer overflow
-                    if newsp = mem_size then
-                        newsp := 0;
-                    end if;
-                    sp <= newsp;
-                end if;
-            end if;
-        end process;
+    signal sp: unsigned(ADDR_SIZE-1 downto 0)
 
+begin
+	-- Stack pointer is just a counter incremented at every <push>
+	comp_sp_counter: Counter
+		generic map (ADDR_SIZE)
+		port map (clk, push, rst, '0', (others => 0), sp);
+
+	-- Input process (synchronous)
+    proc_in: process(clk)
+		begin
+			if rising_edge(clk) then
+				if push = '1' then
+					mem(to_integer(sp)) <= D;
+				end if;
+			end if;
+		end process proc_in;
+
+	-- Output process (combinatorial)
     proc_out: process(rd, addr, mem)
         begin
             if rd = '1' then
