@@ -5,7 +5,7 @@ library IEEE;
 use IEEE.std_logic_1164.all;
 use IEEE.numeric_std.all;
 
-entity TriStateDriver is
+entity TriStateDriver_N is
 	generic (
 		N: natural				-- Number of bits
 	);
@@ -14,7 +14,7 @@ entity TriStateDriver is
 		oe: in std_logic;		-- Output enable
 		Y: out std_logic		-- Output
 	);
-end entity TriStateDriver;
+end entity TriStateDriver_N;
 
 architecture Structural of TriStateDriver is
 	Y <= A when oe = '1' else (others => 'Z');
