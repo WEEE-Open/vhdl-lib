@@ -21,8 +21,8 @@ begin
 	proc_clk: process
 	begin
 		clk <= '0';
-		wait for T/2 * 1 ns;
+		wait for T_ns/2.0 * 1.0 ns;
 		clk <= '1';
-		wait for T/2 * 1 ns;
+		wait for T_ns/2.0 * 1.0 ns;
 	end process;
 end architecture Behavior;

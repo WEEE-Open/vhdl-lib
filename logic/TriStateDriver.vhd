@@ -13,5 +13,6 @@ entity TriStateDriver is
 end entity TriStateDriver;
 
 architecture Structural of TriStateDriver is
+begin
 	Y <= A when oe = '1' else 'Z';
 end architecture Structural;
